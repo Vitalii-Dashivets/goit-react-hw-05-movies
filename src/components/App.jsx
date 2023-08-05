@@ -1,11 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
-import { Home } from '../pages/Home';
-import { Movies } from '../pages/Movies';
-import { MovieDetails } from '../pages/MovieDetails';
+import Home from '../pages/Home';
+import Movies from '../pages/Movies';
+import MovieDetails from '../pages/MovieDetails';
 import { NotFound } from '../pages/NotFound';
 import { Cast } from './Cast/Cast';
 import { Reviews } from './Reviews/Reviews';
 import { Container, Header, Link } from './App.styled';
+
+export const API_KEY = 'd9e80b20e643122ebd230a9efed67c63';
 
 export const App = () => {
   return (
