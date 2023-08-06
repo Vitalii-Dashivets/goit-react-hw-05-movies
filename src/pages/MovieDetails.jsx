@@ -19,13 +19,13 @@ const MovieDetails = () => {
         return setMovie(res);
       });
   }, [movieId]);
-  const { backdrop_path, title, release_date, overview, genres } = movie;
+  const { poster_path, title, release_date, overview, genres } = movie;
   return (
     movie.id && (
       <div>
         <NavLink to="/">Go back</NavLink>
         <img
-          src={`https://api.themoviedb.org/3/movie/${movieId}/images${backdrop_path}?&language=en-US&api_key=${API_KEY}`}
+          src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
           alt=""
           width="130"
           height="200"

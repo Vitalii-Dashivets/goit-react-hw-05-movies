@@ -1,23 +1,36 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { API_KEY } from 'components/App';
+import { useEffect } from 'react';
 
 const Movies = () => {
   const [searchValue, setSearchValue] = useState('');
   const [moviesList, setMoviesList] = useState([]);
   const [fetchStatus, setFetchStatus] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
   const onChange = evt => {
-    setSearchValue(evt.target.value);
+    // const nextParams =
+    //   evt.target.value !== '' ? { query: evt.target.value } : {};
+    return setSearchValue(evt.target.value);
   };
 
   const onSubmitForm = evt => {
     evt.preventDefault();
-    if (searchValue === '') {
+    if (query === '') {
+      return;
+    }
+    console.log(searchParams);
+    return setSearchParams({ query: searchValue });
+  };
+
+  useEffect(() => {
+    if (!query) {
       return;
     }
     fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${searchValue}&include_adult=false&language=en-US&page=1&api_key=${API_KEY}`,
+      `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1&api_key=${API_KEY}`,
       {
         headers: {
           accept: 'application/json',
@@ -33,14 +46,11 @@ const Movies = () => {
         console.log(res.results);
         return setMoviesList(res.results);
       });
-  };
+  }, [query]);
+
   return (
     <div>
       <form onSubmit={onSubmitForm}>
-        <button type="submit">
-          <span>Search</span>
-        </button>
-
         <input
           type="text"
           name="search"
@@ -50,6 +60,9 @@ const Movies = () => {
           placeholder="Search movies"
           onChange={onChange}
         />
+        <button type="submit">
+          <span>Search</span>
+        </button>
       </form>
       <div>
         {fetchStatus && (

@@ -26,7 +26,7 @@ export const Cast = () => {
         return (
           <li key={actor.id}>
             <img
-              src={`https://api.themoviedb.org/3/movie/${movieId}/images${actor.profile_path}?language=en-US&api_key=${API_KEY}`}
+              src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
               alt=""
               width="70"
               height="100"
