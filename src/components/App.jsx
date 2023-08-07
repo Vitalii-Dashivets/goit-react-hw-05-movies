@@ -6,7 +6,7 @@ import { NotFound } from '../pages/NotFound';
 import { Cast } from './Cast/Cast';
 import { Reviews } from './Reviews/Reviews';
 import { Container } from './App.styled';
-import { SharedLayout } from './SharedLayout/SharedLayout';
+import SharedLayout from './SharedLayout/SharedLayout';
 
 export const API_KEY = 'd9e80b20e643122ebd230a9efed67c63';
 
@@ -23,8 +23,8 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/movies/:movieId" element={<MovieDetails />}>
+          <Route path="movies" element={<Movies />} />
+          <Route path="movies/:movieId" element={<MovieDetails />}>
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
