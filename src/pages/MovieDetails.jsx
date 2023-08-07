@@ -7,6 +7,8 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState([]);
   const { movieId } = useParams();
   const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/movies';
+
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/movie/${movieId}?language=en-US&api_key=${API_KEY}`
@@ -24,7 +26,7 @@ const MovieDetails = () => {
   return (
     movie.id && (
       <div>
-        <NavLink to={location.state.from}>Go back</NavLink>
+        <NavLink to={backLinkHref}>Go back</NavLink>
         <img
           src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
           alt=""
