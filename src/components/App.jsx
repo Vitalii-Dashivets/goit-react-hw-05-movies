@@ -1,25 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
-import Movies from '../pages/Movies';
-import MovieDetails from '../pages/MovieDetails';
-import { NotFound } from '../pages/NotFound';
-import { Cast } from './Cast/Cast';
-import { Reviews } from './Reviews/Reviews';
+import { lazy } from 'react';
+
 import { Container } from './App.styled';
 import SharedLayout from './SharedLayout/SharedLayout';
+
+const Home = lazy(() => import('../pages/Home'));
+const Movies = lazy(() => import('../pages/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails'));
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
+const NotFound = lazy(() => import('../pages/NotFound'));
 
 export const API_KEY = 'd9e80b20e643122ebd230a9efed67c63';
 export const BASE_URL = 'api.themoviedb.org/3';
 export const App = () => {
   return (
     <Container>
-      {/* <Header>
-        <nav>
-          <Link to="/"> Home</Link>
-          <Link to="/movies">Movies</Link>
-        </nav>
-      </Header> */}
-
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />

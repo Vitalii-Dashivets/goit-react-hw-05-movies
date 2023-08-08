@@ -26,7 +26,6 @@ const Home = () => {
         return response.json();
       })
       .then(res => {
-        console.log(res);
         return setMovies(res.results);
       })
       .catch(error => setIsError(error.message))

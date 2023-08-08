@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { API_KEY } from 'components/App';
 import { useParams } from 'react-router-dom';
 import { Loader } from 'components/Loader/Loader';
 import { BASE_URL } from 'components/App';
+import { Suspense } from 'react';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState([]);
@@ -12,7 +13,7 @@ const MovieDetails = () => {
   const [isError, setIsError] = useState('');
 
   const location = useLocation();
-  const backLinkHref = location.state?.from ?? '/movies';
+  const backLinkHref = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     setIsLoading(true);
@@ -28,12 +29,14 @@ const MovieDetails = () => {
       .catch(error => setIsError(error.message))
       .finally(setIsLoading(false));
   }, [movieId]);
+
   const { poster_path, title, release_date, overview, genres, vote_average } =
     movie;
+
   return (
     movie.id && (
       <div>
-        <Link to={backLinkHref}>Go back</Link>
+        <Link to={backLinkHref.current}>Go back</Link>
         <img
           src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
           alt=""
@@ -67,7 +70,9 @@ const MovieDetails = () => {
           {isLoading && <Loader />}
           {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}
         </div>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </div>
     )
   );

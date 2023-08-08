@@ -4,7 +4,7 @@ import { API_KEY } from 'components/App';
 import { BASE_URL } from 'components/App';
 import { Loader } from 'components/Loader/Loader';
 
-export const Reviews = () => {
+const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const { movieId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -45,3 +45,4 @@ export const Reviews = () => {
     </div>
   );
 };
+export default Reviews;

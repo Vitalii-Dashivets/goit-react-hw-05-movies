@@ -4,11 +4,30 @@ import { API_KEY } from 'components/App';
 import { useEffect } from 'react';
 import { Loader } from 'components/Loader/Loader';
 import { BASE_URL } from 'components/App';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+Notify.init({
+  width: '300px',
+  fontSize: '18px',
+  position: 'center-top',
+  timeout: '3000',
+  messageMaxLength: 150,
+  distance: '20px',
+  showOnlyTheLastOne: true,
+  warning: {
+    background: '#c24f98',
+    textColor: '#fff',
+    childClassName: 'notiflix-notify-warning',
+    notiflixIconColor: 'rgba(0,0,0,0.2)',
+    fontAwesomeClassName: 'fas fa-exclamation-circle',
+    fontAwesomeIconColor: 'rgba(0,0,0,1)',
+    backOverlayColor: 'rgba(238,191,49,0.2)',
+  },
+});
 
 const Movies = () => {
   const [searchValue, setSearchValue] = useState('');
   const [moviesList, setMoviesList] = useState([]);
-  const [fetchStatus, setFetchStatus] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState('');
@@ -21,10 +40,9 @@ const Movies = () => {
 
   const onSubmitForm = evt => {
     evt.preventDefault();
-    if (query === '') {
+    if (searchValue === '') {
       return;
     }
-    console.log(searchParams);
     return setSearchParams({ query: searchValue });
   };
 
@@ -46,9 +64,11 @@ const Movies = () => {
         return response.json();
       })
       .then(res => {
-        setFetchStatus(true);
-        console.log(res.results);
-        return setMoviesList(res.results);
+        return res.results.length !== 0
+          ? setMoviesList(res.results)
+          : Notify.warning(
+              'Sorry, there are no results for your search criteria'
+            );
       })
       .catch(error => setIsError(error.message))
       .finally(setIsLoading(false));
@@ -71,7 +91,7 @@ const Movies = () => {
         </button>
       </form>
       <div>
-        {fetchStatus && (
+        {
           <ul>
             {moviesList.map(movie => {
               return (
@@ -83,7 +103,7 @@ const Movies = () => {
               );
             })}
           </ul>
-        )}
+        }
       </div>
       {isLoading && <Loader />}
       {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}

@@ -4,7 +4,7 @@ import { API_KEY } from 'components/App';
 import { BASE_URL } from 'components/App';
 import { Loader } from 'components/Loader/Loader';
 
-export const Cast = () => {
+const Cast = () => {
   const [actors, setActors] = useState([]);
   const { movieId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,24 +27,29 @@ export const Cast = () => {
 
   return (
     <div>
-      <ul>
-        {actors.map(actor => {
-          return (
-            <li key={actor.id}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
-                alt=""
-                width="70"
-                height="100"
-              />
-              <p>{actor.name}</p>
-              <p>Character:{actor.character}</p>
-            </li>
-          );
-        })}
-      </ul>
+      {actors.length !== 0 && (
+        <ul>
+          {actors.map(actor => {
+            return (
+              <li key={actor.id}>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
+                  alt=""
+                  width="70"
+                  height="100"
+                />
+                <p>{actor.name}</p>
+                <p>Character:{actor.character}</p>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+      {actors.length === 0 && <p>Sorry, no information...</p>}
+
       {isLoading && <Loader />}
       {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}
     </div>
   );
 };
+export default Cast;
