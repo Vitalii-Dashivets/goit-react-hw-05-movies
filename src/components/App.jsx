@@ -9,7 +9,7 @@ import { Container } from './App.styled';
 import SharedLayout from './SharedLayout/SharedLayout';
 
 export const API_KEY = 'd9e80b20e643122ebd230a9efed67c63';
-
+export const BASE_URL = 'api.themoviedb.org/3';
 export const App = () => {
   return (
     <Container>

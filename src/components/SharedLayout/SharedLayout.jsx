@@ -1,4 +1,4 @@
-import { Header, Link } from 'components/App.styled';
+import { Header, NavLinkStyled } from 'components/App.styled';
 import { Outlet } from 'react-router-dom';
 
 const SharedLayout = () => {
@@ -6,10 +6,10 @@ const SharedLayout = () => {
     <div>
       <Header>
         <nav>
-          <Link to="/" end>
+          <NavLinkStyled to="/" end>
             Home
-          </Link>
-          <Link to="/movies">Movies</Link>
+          </NavLinkStyled>
+          <NavLinkStyled to="/movies">Movies</NavLinkStyled>
         </nav>
       </Header>
       <Outlet />

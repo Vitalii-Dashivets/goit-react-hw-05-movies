@@ -3,6 +3,7 @@ import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { API_KEY } from 'components/App';
 import { useEffect } from 'react';
 import { Loader } from 'components/Loader/Loader';
+import { BASE_URL } from 'components/App';
 
 const Movies = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -33,7 +34,7 @@ const Movies = () => {
     }
     setIsLoading(true);
     fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1&api_key=${API_KEY}`,
+      `https://${BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=1&api_key=${API_KEY}`,
       {
         headers: {
           accept: 'application/json',
@@ -50,7 +51,7 @@ const Movies = () => {
         return setMoviesList(res.results);
       })
       .catch(error => setIsError(error.message))
-      .finally(setTimeout(() => setIsLoading(false), 2000));
+      .finally(setIsLoading(false));
   }, [query]);
 
   return (

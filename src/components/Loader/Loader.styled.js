@@ -9,5 +9,5 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0.2, 0.2, 0.2, 0);
 `;

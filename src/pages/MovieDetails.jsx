@@ -1,32 +1,39 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { API_KEY } from 'components/App';
 import { useParams } from 'react-router-dom';
+import { Loader } from 'components/Loader/Loader';
+import { BASE_URL } from 'components/App';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState([]);
   const { movieId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState('');
+
   const location = useLocation();
   const backLinkHref = location.state?.from ?? '/movies';
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US&api_key=${API_KEY}`
+      `https://${BASE_URL}/movie/${movieId}?language=en-US&api_key=${API_KEY}`
     )
       .then(response => {
         return response.json();
       })
       .then(res => {
-        console.log(res);
         return setMovie(res);
-      });
+      })
+      .catch(error => setIsError(error.message))
+      .finally(setIsLoading(false));
   }, [movieId]);
   const { poster_path, title, release_date, overview, genres, vote_average } =
     movie;
   return (
     movie.id && (
       <div>
-        <NavLink to={backLinkHref}>Go back</NavLink>
+        <Link to={backLinkHref}>Go back</Link>
         <img
           src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
           alt=""
@@ -50,13 +57,15 @@ const MovieDetails = () => {
           <ul>
             <li key={'cast'}>
               {' '}
-              <NavLink to={'cast'}>Cast</NavLink>
+              <Link to={'cast'}>Cast</Link>
             </li>
             <li key={'reviews'}>
               {' '}
-              <NavLink to={'reviews'}>Reviews</NavLink>
+              <Link to={'reviews'}>Reviews</Link>
             </li>
           </ul>
+          {isLoading && <Loader />}
+          {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}
         </div>
         <Outlet />
       </div>
