@@ -9,7 +9,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 Notify.init({
   width: '300px',
   fontSize: '18px',
-  position: 'center-top',
+  position: 'right-top',
   timeout: '3000',
   messageMaxLength: 150,
   distance: '20px',
