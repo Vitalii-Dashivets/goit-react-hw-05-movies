@@ -9,7 +9,7 @@ export const TrendingList = ({ movies, location }) => {
         {movies.map(movie => {
           return (
             <Item key={movie.id}>
-              <Link to={`movies/${movie.id}`} state={{ from: location }}>
+              <Link to={`/movies/${movie.id}`} state={{ from: location }}>
                 {movie.title}
               </Link>
             </Item>
@@ -20,6 +20,6 @@ export const TrendingList = ({ movies, location }) => {
   );
 };
 TrendingList.propTypes = {
-  movies: PropTypes.array,
-  location: PropTypes.object,
+  movies: PropTypes.array.isRequired,
+  location: PropTypes.object.isRequired,
 };
