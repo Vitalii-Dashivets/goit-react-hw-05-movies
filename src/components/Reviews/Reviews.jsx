@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchData } from 'services/fetch-api';
 import { API_KEY } from 'components/App';
 import { BASE_URL } from 'components/App';
 import { Loader } from 'components/Loader/Loader';
@@ -13,12 +14,9 @@ const Reviews = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
+    fetchData(
       `https://${BASE_URL}/movie/${movieId}/reviews?language=en-US&api_key=${API_KEY}&page=1`
     )
-      .then(response => {
-        return response.json();
-      })
       .then(res => {
         return setReviews(res.results);
       })

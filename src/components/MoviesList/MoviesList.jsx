@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Item, List } from './TrendingList.styled';
+import { useLocation } from 'react-router-dom';
+import { Item, List } from './MoviesList.styled';
 import PropTypes from 'prop-types';
 
-export const TrendingList = ({ movies, location }) => {
+export const MoviesList = ({ movies }) => {
+  const location = useLocation();
   return (
     <div>
       <List>
@@ -19,7 +21,6 @@ export const TrendingList = ({ movies, location }) => {
     </div>
   );
 };
-TrendingList.propTypes = {
+MoviesList.propTypes = {
   movies: PropTypes.array.isRequired,
-  location: PropTypes.object.isRequired,
 };

@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { API_KEY } from 'components/App';
 import { useEffect } from 'react';
 import { Loader } from 'components/Loader/Loader';
 import { BASE_URL } from 'components/App';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Form } from 'components/Form/Form';
-import { TrendingList } from 'components/TrendingList/TrendingList';
+import { MoviesList } from 'components/MoviesList/MoviesList';
+import { fetchData } from 'services/fetch-api';
 
 Notify.init({
   width: '300px',
@@ -30,43 +31,20 @@ Notify.init({
 });
 
 const Movies = () => {
-  const [searchValue, setSearchValue] = useState('');
   const [moviesList, setMoviesList] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState('');
-  const location = useLocation();
   const query = searchParams.get('query');
-
-  const onChange = evt => {
-    return setSearchValue(evt.target.value);
-  };
-
-  const onSubmitForm = evt => {
-    evt.preventDefault();
-    if (searchValue === '') {
-      return;
-    }
-    return setSearchParams({ query: searchValue });
-  };
 
   useEffect(() => {
     if (!query) {
       return;
     }
     setIsLoading(true);
-    fetch(
-      `https://${BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=1&api_key=${API_KEY}`,
-      {
-        headers: {
-          accept: 'application/json',
-          Authorization: 'd9e80b20e643122ebd230a9efed67c63',
-        },
-      }
+    fetchData(
+      `https://${BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=1&api_key=${API_KEY}`
     )
-      .then(response => {
-        return response.json();
-      })
       .then(res => {
         return res.results.length !== 0
           ? setMoviesList(res.results)
@@ -83,12 +61,8 @@ const Movies = () => {
 
   return (
     <div>
-      <Form
-        onChange={onChange}
-        onSubmitForm={onSubmitForm}
-        searchValue={searchValue}
-      />
-      <TrendingList movies={moviesList} location={location} />
+      <Form setSearchParams={setSearchParams} />
+      <MoviesList movies={moviesList} />
       {isLoading && <Loader />}
       {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}
     </div>

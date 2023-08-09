@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Outlet, useLocation } from 'react-router-dom';
+import { fetchData } from 'services/fetch-api';
 import { API_KEY } from 'components/App';
 import { useParams } from 'react-router-dom';
 import { Loader } from 'components/Loader/Loader';
@@ -21,12 +22,9 @@ const MovieDetails = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
+    fetchData(
       `https://${BASE_URL}/movie/${movieId}?language=en-US&api_key=${API_KEY}`
     )
-      .then(response => {
-        return response.json();
-      })
       .then(res => {
         return setMovie(res);
       })

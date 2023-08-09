@@ -1,7 +1,22 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormStyled, Button, Text, Input } from './Form.styled';
 
-export const Form = ({ onChange, onSubmitForm, searchValue }) => {
+export const Form = ({ setSearchParams }) => {
+  const [searchValue, setSearchValue] = useState('');
+
+  const onChange = evt => {
+    return setSearchValue(evt.target.value);
+  };
+
+  const onSubmitForm = evt => {
+    evt.preventDefault();
+    if (searchValue === '') {
+      return;
+    }
+    return setSearchParams({ query: searchValue.trim() });
+  };
+
   return (
     <div>
       <FormStyled onSubmit={onSubmitForm}>
@@ -23,7 +38,5 @@ export const Form = ({ onChange, onSubmitForm, searchValue }) => {
 };
 
 Form.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onSubmitForm: PropTypes.func.isRequired,
-  searchValue: PropTypes.string.isRequired,
+  setSearchParams: PropTypes.func.isRequired,
 };

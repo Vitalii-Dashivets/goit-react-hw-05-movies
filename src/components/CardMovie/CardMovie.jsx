@@ -1,6 +1,9 @@
 import { Container, Button } from './CardMovie.styled';
 import PropTypes from 'prop-types';
 
+const DEFAULT_IMG =
+  'https://st.depositphotos.com/17828278/57681/v/1600/depositphotos_576814612-stock-illustration-image-vector-symbol-shadow-missing.jpg';
+
 export const CardMovie = ({ movie, onGoBack }) => {
   const { poster_path, title, release_date, overview, genres, vote_average } =
     movie;
@@ -11,7 +14,11 @@ export const CardMovie = ({ movie, onGoBack }) => {
         Go back
       </Button>
       <img
-        src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+        src={
+          poster_path
+            ? `https://image.tmdb.org/t/p/w500/${poster_path}`
+            : DEFAULT_IMG
+        }
         alt=""
         width="160"
         height="240"

@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchData } from 'services/fetch-api';
 import { API_KEY } from 'components/App';
 import { BASE_URL } from 'components/App';
 import { Loader } from 'components/Loader/Loader';
 import { Item, List, Name, RoleText, Container } from './Cast.styled';
+const DEFAULT_IMG =
+  'https://st.depositphotos.com/17828278/57681/v/1600/depositphotos_576814612-stock-illustration-image-vector-symbol-shadow-missing.jpg';
 
 const Cast = () => {
   const [actors, setActors] = useState([]);
@@ -13,12 +16,9 @@ const Cast = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(
+    fetchData(
       `https://${BASE_URL}/movie/${movieId}/credits?language=en-US&api_key=${API_KEY}`
     )
-      .then(response => {
-        return response.json();
-      })
       .then(res => {
         return setActors(res.cast);
       })
@@ -38,7 +38,11 @@ const Cast = () => {
             return (
               <Item key={actor.id}>
                 <img
-                  src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
+                  src={
+                    actor.profile_path
+                      ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
+                      : DEFAULT_IMG
+                  }
                   alt=""
                   width="100"
                   height="140"
