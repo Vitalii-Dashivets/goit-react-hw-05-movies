@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/805.28cb412a.chunk.js","mappings":"iMAAaA,EAAW,WACtB,OAAO,kBACR,C","sources":["pages/NotFound.jsx"],"sourcesContent":["export const NotFound = () => {\n  return <div></div>;\n};\n"],"names":["NotFound"],"sourceRoot":""}
