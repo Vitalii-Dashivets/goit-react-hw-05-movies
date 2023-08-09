@@ -15,7 +15,7 @@ export const CardMovie = ({ movie, onGoBack }) => {
       </Button>
       <img
         src={
-          poster_path
+          poster_path !== null
             ? `https://image.tmdb.org/t/p/w500/${poster_path}`
             : DEFAULT_IMG
         }
