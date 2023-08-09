@@ -1,19 +1,23 @@
 import { useState } from 'react';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { API_KEY } from 'components/App';
 import { useEffect } from 'react';
 import { Loader } from 'components/Loader/Loader';
 import { BASE_URL } from 'components/App';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Form } from 'components/Form/Form';
+import { TrendingList } from 'components/TrendingList/TrendingList';
 
 Notify.init({
   width: '300px',
   fontSize: '18px',
-  position: 'right-top',
+  position: 'center-top',
   timeout: '3000',
   messageMaxLength: 150,
   distance: '20px',
   showOnlyTheLastOne: true,
+  clickToClose: true,
+  closeButton: true,
   warning: {
     background: '#c24f98',
     textColor: '#fff',
@@ -70,41 +74,21 @@ const Movies = () => {
               'Sorry, there are no results for your search criteria'
             );
       })
-      .catch(error => setIsError(error.message))
+      .catch(error => {
+        Notify.warning(error.message);
+        return setIsError(error.message);
+      })
       .finally(setIsLoading(false));
   }, [query]);
 
   return (
     <div>
-      <form onSubmit={onSubmitForm}>
-        <input
-          type="text"
-          name="search"
-          value={searchValue}
-          autoComplete="off"
-          autoFocus
-          placeholder="Search movies"
-          onChange={onChange}
-        />
-        <button type="submit">
-          <span>Search</span>
-        </button>
-      </form>
-      <div>
-        {
-          <ul>
-            {moviesList.map(movie => {
-              return (
-                <li key={movie.id}>
-                  <Link to={`${movie.id}`} state={{ from: location }}>
-                    {movie.title}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        }
-      </div>
+      <Form
+        onChange={onChange}
+        onSubmitForm={onSubmitForm}
+        searchValue={searchValue}
+      />
+      <TrendingList movies={moviesList} location={location} />
       {isLoading && <Loader />}
       {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}
     </div>

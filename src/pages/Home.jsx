@@ -1,10 +1,12 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { useState } from 'react';
 import { API_KEY } from 'components/App';
 import { Loader } from 'components/Loader/Loader';
 import { BASE_URL } from 'components/App';
+import { TrendingList } from 'components/TrendingList/TrendingList';
+import { Title } from 'components/TrendingList/TrendingList.styled';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -34,18 +36,8 @@ const Home = () => {
 
   return (
     <div>
-      <ul>
-        <h1>Trending today</h1>
-        {movies.map(movie => {
-          return (
-            <li key={movie.id}>
-              <Link to={`movies/${movie.id}`} state={{ from: location }}>
-                {movie.title}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <Title>Trending today</Title>
+      <TrendingList movies={movies} location={location} />
       {isLoading && <Loader />}
       {isError && <h5 textAlign="center">Sorry. {isError} 😭</h5>}
     </div>
